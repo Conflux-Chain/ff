@@ -911,7 +911,7 @@ fn prime_field_impl(
                     }
                 }
             }
-            #[cfg(any!(not(target_arch = "x86_64"), target_os = "windows"))]
+            #[cfg(any(not(target_arch = "x86_64"), target_os = "windows"))]
             {
                 #default_impl
             }

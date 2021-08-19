@@ -759,7 +759,7 @@ fn prime_field_impl(
 
         let mut gen = proc_macro2::TokenStream::new();
         gen.extend(quote! {
-            #[cfg(target_arch = "x86_64")]
+            #[cfg(all(target_arch = "x86_64", not(target_os = "windows")))]
             {
                 if *::fff::CPU_SUPPORTS_ADX_INSTRUCTION {
                     ::fff::mod_mul_4w_assign(&mut (#a.0).0, &(#b.0).0);
@@ -767,7 +767,7 @@ fn prime_field_impl(
                     #default_impl
                 }
             }
-            #[cfg(not(target_arch = "x86_64"))]
+            #[cfg(any(not(target_arch = "x86_64"), target_os = "windows"))]
             {
                 #default_impl
             }
@@ -843,7 +843,7 @@ fn prime_field_impl(
         let default_impl = add_assign_default_impl(a.clone(), b.clone(), limbs);
 
         gen.extend(quote! {
-            #[cfg(target_arch = "x86_64")]
+            #[cfg(all(target_arch = "x86_64", not(target_os = "windows")))]
             {
                 // This cannot exceed the backing capacity.
                 use std::arch::x86_64::*;
@@ -911,7 +911,7 @@ fn prime_field_impl(
                     }
                 }
             }
-            #[cfg(not(target_arch = "x86_64"))]
+            #[cfg(any!(not(target_arch = "x86_64"), target_os = "windows"))]
             {
                 #default_impl
             }

@@ -9,10 +9,10 @@ extern crate fff_derive;
 #[cfg(feature = "derive")]
 pub use fff_derive::*;
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(all(target_arch = "x86_64", not(target_os = "windows")))]
 mod asm;
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(all(target_arch = "x86_64", not(target_os = "windows")))]
 pub use asm::*;
 
 use rand_core::RngCore;

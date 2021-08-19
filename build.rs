@@ -1,4 +1,4 @@
-#[cfg(target_arch = "x86_64")]
+#[cfg(all(target_arch = "x86_64", not(target_os = "windows")))]
 fn main() {
     let target_arch = std::env::var("CARGO_CFG_TARGET_ARCH").unwrap();
 
@@ -10,5 +10,5 @@ fn main() {
     }
 }
 
-#[cfg(not(target_arch = "x86_64"))]
+#[cfg(any(not(target_arch = "x86_64"), target_os = "windows"))]
 fn main() {}
